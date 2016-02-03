@@ -54,7 +54,7 @@ class myclass(object):
         with open(filepath, 'r') as f:
             for item in iter((lambda: f.read(BLOCKSIZE)), ''):
                 readdigest.update(item)
-
+                pass
         return readdigest.hexdigest()
 
     def _copy(self, frompath, topath, checksum=True, overwrite=False):
