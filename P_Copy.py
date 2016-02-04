@@ -103,7 +103,8 @@ class myclass(object):
         for item in copyfiles:
             copylist = (scanner.restoreFilename(item['filename'], index) for index in item['frames'])
             for singlefile in copylist:
-                tofile = os.path.normpath(topath + singlefile.replace(frompath, ''))
+                tofile = os.path.normpath(
+                    os.path.join(topath, os.path.split(frompath)[-1]) + singlefile.replace(frompath, ''))
                 # print(tofile)
                 self._copy(singlefile, tofile, checksum, overwrite)
 
@@ -117,15 +118,18 @@ class myclass(object):
                 print self.resetcolor + 'log file: %s' % (os.path.join(topath, 'xxhash.csv'))
 
 
-
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print('''param:
-    -c\tcheck file (using xxhash)
-    -o\toverwrite exist file
-    -w\twrite xxhash log file
-    [source folder]\tfolder needs to be copied (recursive scan)
-    [target folder]\tcopied location''')
+        print('''readme:
+        copy files with xxhash check and write csv log file with it.
+    usage:
+        P_Copy.py [-c] [-o] [-w] [source folder] [target folder]
+    param:
+        -c\tcheck file (using xxhash)
+        -o\toverwrite exist file
+        -w\twrite xxhash log file
+        [source folder]\tfolder needs to be copied (recursive scan)
+        [target folder]\tcopied location''')
         sys.exit(0)
 
     sourcefolder = sys.argv[-2]
