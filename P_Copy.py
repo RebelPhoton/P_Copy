@@ -102,7 +102,7 @@ class myclass(object):
         # copyfiles = scanner.scanFolder(frompath)
 
         for root, sub, files in os.walk(frompath):
-            for singlefile in (os.path.join(root, myfile) for myfile in files):
+            for singlefile in sorted([os.path.join(root, myfile) for myfile in files]):
                 tofile = os.path.normpath(
                     os.path.join(topath, os.path.split(frompath)[-1]) + singlefile.replace(frompath, ''))
                 # print(tofile)
