@@ -97,16 +97,16 @@ class myclass(object):
         begintime = time.time()
         self.failfiles = []
         self.logstring = ''
-        scanner = ascan.AScan()
-        copyfiles = scanner.scanFolder(frompath)
+        localcopy = self._copy
+        # scanner = ascan.AScan()
+        # copyfiles = scanner.scanFolder(frompath)
 
-        for item in copyfiles:
-            copylist = (scanner.restoreFilename(item['filename'], index) for index in item['frames'])
-            for singlefile in copylist:
+        for root, sub, files in os.walk(frompath):
+            for singlefile in (os.path.join(root, myfile) for myfile in files):
                 tofile = os.path.normpath(
                     os.path.join(topath, os.path.split(frompath)[-1]) + singlefile.replace(frompath, ''))
                 # print(tofile)
-                self._copy(singlefile, tofile, checksum, overwrite)
+                localcopy(singlefile, tofile, checksum, overwrite)
 
         print self.resetcolor + '\n==============================\ncopy time: %s' % (time.time() - begintime)
         print self.redcolor + 'error files: %s\n%s' % (len(self.failfiles), '\n'.join(self.failfiles))
